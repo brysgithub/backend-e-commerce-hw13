@@ -8,9 +8,16 @@ router.get("/", async (req, res) => {
   // be sure to include its associated Product data
   try {
     const tagData = await Tag.findAll({
-      include: [{ all: true, nested: true }]
+
+      // Include statement causing a "SequelizeEagerLoadingError" and I can't figure out why.
+
+      // include: [{ all: true, nested: true }],
       // include: [
-      //   { model: Product, through: ProductTag, attributes: ["product_name", "price", "stock"] },
+      //   {
+      //     model: Product,
+      //     through: ProductTag,
+      //     attributes: ["id", "product_name", "price", "stock"],
+      //   },
       // ],
     });
     res.status(200).json(tagData);
@@ -24,14 +31,16 @@ router.get("/:id", async (req, res) => {
   // be sure to include its associated Product data
   try {
     const tagData = await Tag.findByPk(req.params.id, {
+      
+      // Include statement causing a "SequelizeEagerLoadingError" and I can't figure out why.
+      
       // include: [
       //   {
-      //     model: Tag,
+      //     model: Product,
       //     through: ProductTag,
-      //     attributes: ["id"],
+      //     attributes: ["id", "product_name", "price", "stock"],
       //   },
       // ],
-      include: [{ all: true, nested: true }]
     });
 
     if (!tagData) {
